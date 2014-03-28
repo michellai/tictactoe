@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test!</title>
+	<link rel="stylesheet" href="grid.css">
+	<script src="jquery-1.11.0.js"></script>
+</head>
+<body>
+	<div id = "container">
+		<div class = "col col1">
+			<div id="pos1" class="pos row1"></div>
+			<div id="pos2" class="pos row2"></div>
+			<div id="pos3" class="pos row3"></div>
+		</div>
+		<div class = "col col2">
+			<div id="pos4" class="pos row1"></div>
+			<div id="pos5" class="pos row2"></div>
+			<div id="pos6" class="pos row3"></div>
+		</div>
+		<div class = "col col3">
+			<div id="pos7" class="pos row1"></div>
+			<div id="pos8" class="pos row2"></div>
+			<div id="pos9" class="pos row3"></div>
+		</div>
+	</div>
+	<button id="reset">Reset Game</button>
+	<!--
+	<div id="dialog" title="Basic dialog">
+	  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+	</div>
+	-->
+	<script type="text/javascript">
+		/*
+		$(function() {
+		$( "#dialog" ).dialog();
+		});
+		*/
+		// add "x's" turn
+		$( "#reset" ).click(function() {
+			var positions = 9;
+			for (var cnt = 1; cnt <= positions; cnt++) {
+				$($('#pos'+cnt.toString())).html('');
+			}
+		});
+
+		var xTurn = true;
+
+
+		function checkWin(el) {
+			var dimension = 3;
+			var r = '.row';
+			var c = '.col';
+
+			for (var cnt = 1; cnt <= dimension; cnt++) {
+
+				//check columns
+				if ($($(c+cnt.toString()).children()[0]).html() != "" &&
+					$($(c+cnt.toString()).children()[0]).html() == $($(c+cnt.toString()).children()[1]).html() &&
+					$($(c+cnt.toString()).children()[0]).html() == $($(c+cnt.toString()).children()[2]).html()) {
+						alert($($(c+cnt.toString()).children()[0]).html()+ " won!");
+						return;
+				}
+				//check rows
+				if ($($(r+cnt.toString())[0]).html() != "" &&
+					$($(r+cnt.toString())[0]).html() == $($(r+cnt.toString())[1]).html() &&
+					$($(r+cnt.toString())[0]).html() == $($(r+cnt.toString())[2]).html()) {
+						alert($($(r+cnt.toString())[0]).html()+ " won!");
+						return;
+				}
+			}
+
+			//check diagonals
+			if ($($('#pos5')).html() != "") {
+				if ($($('.row1')[0]).html() == $($('.row2')[1]).html() &&
+					 $($('.row1')[0]).html() == $($('.row3')[2]).html()) {
+						alert($($('.row1')[0]).html()+ " won!");
+						return;
+				}
+				else if ($($('.row1')[2]).html() == $($('.row2')[1]).html() &&
+					 $($('.row1')[2]).html() == $($('.row3')[0]).html()) {
+						alert($($('.row1')[2]).html()+ " won!");
+						return;
+				}
+			}
+		}
+
+		function checkTie() {
+			for (var cnt = 0; cnt < $('.pos').length; cnt++) {
+				if( $($('.pos')[cnt]).html() == "" ) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		$( ".pos" ).click(function() {
+			if ($(this).html() == "") {
+				if (xTurn) {
+					$(this).html('x');
+					xTurn = false;
+				} else {
+					$(this).html('o');
+					xTurn = true;
+				}
+				checkWin($(this));
+				if(checkTie()) {
+					alert("It's a tie!");
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>
